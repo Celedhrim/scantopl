@@ -45,17 +45,9 @@ go install github.com/Celedhrim/scantopl@master
 ### Docker
 
 ```
-git clone https://github.com/Celedhrim/scantopl       
-cd scantopl/
-docker build -t scantopl:latest .
-```
-
-Then launch it with ouput mount and paperless URL and TOKEN
-
-```
 $ docker run --rm \
   -v /your/host/scanservjs/output:/output \
   -e PLURL=https://paperless.yourdomain.instance \
   -e PLTOKEN=XXXXXXXXXXXX \
-  scantopl
+  ghcr.io/celedhrim/scantopl:master
 ```
