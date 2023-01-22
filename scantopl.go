@@ -101,7 +101,7 @@ func main() {
 					return
 				}
 				//log.Println("event:", event)
-				if event.Op&fsnotify.Create == fsnotify.Create && strings.HasPrefix(path.Base(event.Name), "pl_") {
+				if event.Has(fsnotify.Create) && strings.HasPrefix(path.Base(event.Name), "pl_") {
 					//little pause to ensure the write operation is finished
 					time.Sleep(1 * time.Second)
 					log.Info("New file to upload:", event.Name)
