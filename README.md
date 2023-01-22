@@ -1,6 +1,6 @@
 # scantopl
 
-Automatically send [scanservjs](https://github.com/sbs20/scanservjs) scanned document to [paperless-ng](https://github.com/jonaswinkler/paperless-ng)
+Automatically send [scanservjs](https://github.com/sbs20/scanservjs) scanned document to [paperless-ngx](https://github.com/paperless-ngx/paperless-ngx)
 
 ## How to configure
 
@@ -18,12 +18,12 @@ Usage of /usr/bin/scantopl:
 
 or you can use envvar : SCANDIR, PLTOKEN, PLURL
 
-provide the paperless-ng url , the paperless-ng token and the scanservjs output dir ( or bind to /output in docker) 
+provide the paperless-ngx url , the paperless-ngx token and the scanservjs output dir ( or bind to /output in docker) 
 
 ## How to use it
 
 * Scan something
-* if you want to send it to paperless-ng , go in the scanservjs file section and rename file to add prefix **pl_** ( test_scan.pdf -> pl_test_scan.pdf)
+* if you want to send it to paperless-ngx , go in the scanservjs file section and rename file to add prefix **pl_** ( test_scan.pdf -> pl_test_scan.pdf)
 * the file is submitted with name "test_scan" ( remove prefix and extension automatically) then remove source file is deleted 
 
 ## How it work
