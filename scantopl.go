@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"io"
 	"mime/multipart"
 	"net/http"
@@ -13,6 +14,10 @@ import (
 	"github.com/fsnotify/fsnotify"
 	"github.com/jnovack/flag"
 	log "github.com/sirupsen/logrus"
+)
+
+var (
+	Version = "v1.0.0"
 )
 
 func FilenameWithoutExtension(fn string) string {
@@ -79,8 +84,14 @@ func main() {
 	scandir := flag.String("scandir", "/home/scanservjs/output", "Scanserjs ouput directory")
 	plurl := flag.String("plurl", "http://localhost:8080", "The paperless instance URL without trailing /")
 	pltoken := flag.String("pltoken", "xxxxxxxxxxxxxxxxxx", "Paperless auth token , generated through admin")
+	showversion := flag.Bool("version", false, "Show version and exit")
 
 	flag.Parse()
+
+	if *showversion {
+		fmt.Println("version", Version)
+		os.Exit(0)
+	}
 
 	// test if it's a directory
 	log.Println("Start watching:", *scandir)
