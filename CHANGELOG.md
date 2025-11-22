@@ -2,7 +2,9 @@
 
 All notable changes to this project are documented in this file.
 
-## Unreleased (2025-11-22)
+## Unreleased
+
+## v1.0.1 (2025-11-22)
 
 ### Changed
 - update go and github actions ([f84f004](https://github.com/Celedhrim/scantopl/commit/f84f004)) — Celedhrim
