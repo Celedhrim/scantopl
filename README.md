@@ -12,24 +12,26 @@ Usage of /usr/bin/scantopl:
         Paperless auth token , generated through admin (default "xxxxxxxxxxxxxxxxxx")
   -plurl string
         The paperless instance URL without trailing / (default "http://localhost:8080")
+  -prefix string
+        The file prefix to look for. Use an empty string for all files. (default "pl_")
   -scandir string
         Scanserjs ouput directory (default "/home/scanservjs/output")
 ```
 
-or you can use envvar : SCANDIR, PLTOKEN, PLURL
+or you can use envvar : SCANDIR, PLTOKEN, PLURL, PREFIX
 
 provide the paperless-ngx url , the paperless-ngx token and the scanservjs output dir ( or bind to /output in docker) 
 
 ## How to use it
 
 * Scan something
-* if you want to send it to paperless-ngx , go in the scanservjs file section and rename file to add prefix **pl_** ( test_scan.pdf -> pl_test_scan.pdf)
-* the file is submitted with name "test_scan" ( remove prefix and extension automatically) then remove source file is deleted 
+* To send it to paperless-ngx, either rename the file to include the configured prefix (default is `pl_`, e.g., `test_scan.pdf` -> `pl_test_scan.pdf`), or run `scantopl` with `-prefix ""` to upload all new files regardless of prefix.
+* The file is submitted with its name (prefix and extension are automatically removed if a prefix is used). The source file is then deleted.
 
 ## How it work
 
 * listen for file creation in the scanservjs output dir
-* if a newly created file start with **pl_** , upload it to paperless 
+* if a newly created file starts with the configured prefix (or any file if prefix is empty), upload it to paperless 
 * If uploaded succefully, remove file from scanservjs output
 
 ## Install

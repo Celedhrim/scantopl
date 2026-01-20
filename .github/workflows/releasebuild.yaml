@@ -9,10 +9,14 @@ jobs:
     strategy:
       matrix:
         goos: [linux, windows, darwin]
-        goarch: [amd64, arm64]
+        goarch: [amd64, arm64, arm]
         exclude:
           - goarch: arm64
             goos: windows
+          - goarch: arm
+            goos: windows
+          - goarch: arm
+            goos: darwin
     steps:
     - uses: actions/checkout@v4
     - uses: wangyoucao577/go-release-action@v1.53
@@ -24,13 +28,28 @@ jobs:
         md5sum: FALSE
         compress_assets: OFF
 
+  release-armv6:
+    name: Release Go Binary for ARMv6
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: wangyoucao577/go-release-action@v1.53
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        goos: 'linux'
+        goarch: 'arm'
+        goarm: '6'
+        goversion: "1.25"
+        md5sum: FALSE
+        compress_assets: OFF
+
   publish-docker:
     name: Build and Publish Docker image
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
-    needs: releases-matrix
+    needs: [releases-matrix, release-armv6]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -61,7 +80,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64,linux/arm/v6,linux/arm/v7
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

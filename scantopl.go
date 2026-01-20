@@ -24,8 +24,8 @@ func FilenameWithoutExtension(fn string) string {
 	return strings.TrimSuffix(path.Base(fn), path.Ext(fn))
 }
 
-func TitleFromFileName(fn string) string {
-	return strings.TrimPrefix(FilenameWithoutExtension(fn), "pl_")
+func TitleFromFileName(fn string, prefix string) string {
+	return strings.TrimPrefix(FilenameWithoutExtension(fn), prefix)
 }
 
 func createForm(form map[string]string) (string, io.Reader, error) {
@@ -52,8 +52,8 @@ func createForm(form map[string]string) (string, io.Reader, error) {
 	return mp.FormDataContentType(), body, nil
 }
 
-func uploadFile(document, plurl, pltoken string) {
-	form := map[string]string{"document": "@" + document, "title": TitleFromFileName(document)}
+func uploadFile(document, plurl, pltoken, prefix string) {
+	form := map[string]string{"document": "@" + document, "title": TitleFromFileName(document, prefix)}
 	ct, body, err := createForm(form)
 	if err != nil {
 		log.Fatal(err)
@@ -81,9 +81,10 @@ func main() {
 
 	// OPTs
 	flag.String(flag.DefaultConfigFlagname, "", "path to config file")
-	scandir := flag.String("scandir", "/home/scanservjs/output", "Scanserjs ouput directory")
+	scandir := flag.String("scandir", "/home/scanservjs/output", "Scanservjs output directory")
 	plurl := flag.String("plurl", "http://localhost:8080", "The paperless instance URL without trailing /")
-	pltoken := flag.String("pltoken", "xxxxxxxxxxxxxxxxxx", "Paperless auth token , generated through admin")
+	pltoken := flag.String("pltoken", "xxxxxxxxxxxxxxxxxx", "Paperless auth token, generated through admin")
+	prefix := flag.String("prefix", "pl_", "The file prefix to look for. Use an empty string for all files.")
 	showversion := flag.Bool("version", false, "Show version and exit")
 
 	flag.Parse()
@@ -112,11 +113,11 @@ func main() {
 					return
 				}
 				//log.Println("event:", event)
-				if event.Has(fsnotify.Create) && strings.HasPrefix(path.Base(event.Name), "pl_") {
+				if event.Has(fsnotify.Create) && strings.HasPrefix(path.Base(event.Name), *prefix) {
 					//little pause to ensure the write operation is finished
 					time.Sleep(1 * time.Second)
 					log.Info("New file to upload:", event.Name)
-					uploadFile(event.Name, *plurl, *pltoken)
+					uploadFile(event.Name, *plurl, *pltoken, *prefix)
 				}
 			case err, ok := <-watcher.Errors:
 				if !ok {
