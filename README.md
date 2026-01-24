@@ -41,7 +41,7 @@ provide the paperless-ngx url , the paperless-ngx token and the scanservjs outpu
 Have a working go env then
 
 ```
-go install github.com/Celedhrim/scantopl@master
+go install github.com/Celedhrim/scantopl@v1.0.2
 ``` 
 
 ### Docker
@@ -51,5 +51,5 @@ $ docker run --rm \
   -v /your/host/scanservjs/output:/output \
   -e PLURL=https://paperless.yourdomain.instance \
   -e PLTOKEN=XXXXXXXXXXXX \
-  ghcr.io/celedhrim/scantopl:master
+      ghcr.io/celedhrim/scantopl:v1.0.2
 ```
