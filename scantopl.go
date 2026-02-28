@@ -17,7 +17,7 @@ import (
 )
 
 var (
-	Version = "v1.0.2"
+	Version = "v1.0.3"
 )
 
 func FilenameWithoutExtension(fn string) string {

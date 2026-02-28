@@ -4,6 +4,11 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+## v1.0.3 (2026-02-28)
+
+### Fixed
+- Fix Docker image tag inconsistency: tags now include the `v` prefix (e.g., `v1.0.3`) to match release tags (fixes [#10](https://github.com/Celedhrim/scantopl/issues/10))
+
 ## v1.0.2 (2026-01-24)
 
 ### Added
